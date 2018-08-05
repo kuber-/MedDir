@@ -6,15 +6,17 @@ namespace Tests.Services
 {
     public class PatientGroupsServiceShould
     {
-        private readonly IPatientGroupsService sut = new PatientGroupsService();
+        readonly IPatientGroupsService sut = new PatientGroupsService();
 
         [Fact]
-        public void ThrowWhenNullData() {
+        public void ThrowWhenNullData()
+        {
             Assert.Throws<ArgumentNullException>(() => sut.Calculate(null));
         }
 
         [Fact]
-        public void ThrowWhenOutOfRangeData() {
+        public void ThrowWhenOutOfRangeData()
+        {
             var outOfRangeData = new int[,] {
                 { 1, 1, 1, 0, 1},
                 { 0, 0, 0, 2, 0}
@@ -24,7 +26,8 @@ namespace Tests.Services
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void Calculate(int[,] matrix, int numberOfGroups) {
+        public void Calculate(int[,] matrix, int numberOfGroups)
+        {
             Assert.Equal(numberOfGroups, sut.Calculate(matrix));
         }
 
@@ -80,7 +83,7 @@ namespace Tests.Services
             // diag only groups
             {
                 new int[,] {
-                    {1, 0, 0}, {0, 1, 0}, {0, 0, 1},
+                    {1, 0, 0}, {0, 1, 0}, {0, 0, 1}
                 }, 1
             },
             // no groups
@@ -89,13 +92,13 @@ namespace Tests.Services
             },
             {
                 new int[,] {
-                    {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0},
+                    {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}
                 }, 0
             },
             // one group
             {
                 new int[,] {
-                    {1, 1}, {1, 1}, {1, 1}, {1, 1},
+                    {1, 1}, {1, 1}, {1, 1}, {1, 1}
                 }, 1
             },
             {

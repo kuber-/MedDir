@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "3167e6b3-be23-4791-bc18-5fab0d8b1c04",
+		"name": "MedDirWeb",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "a4996396-47b8-4588-bde8-332e9b679fca",
+			"name": "Calculate Valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "02a1ae44-db2c-418b-bff2-fe09f41b882d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"response schema to be valid json\", function () {",
+							"    var schema = { ",
+							"        \"type\": \"object\",",
+							"        \"required\": [\"numberOfGroups\"],",
+							"        \"properties\": {",
+							"            \"numberOfGroups\": {",
+							"                \"type\": \"number\"",
+							"            },",
+							"        },",
+							"    };",
+							"    ",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"    ",
+							"    var isValid = tv4.validate(pm.response.json(), schema);",
+							"    if (isValid !== true) {",
+							"        console.log(tv4.error);",
+							"    }",
+							"    pm.expect(isValid).to.be.true;",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"matrix\" : [\n\t    [1, 0, 1, 1, 1],\n\t    [1, 0, 0, 0, 0],\n\t    [1, 0, 0, 0, 1],\n\t    [0, 0, 1, 0, 0],\n\t    [0, 1, 0, 0, 0],\n\t    [0, 1, 0, 0, 1]\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/patient-groups/calculate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"patient-groups",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "c1d5127d-901d-4599-a5df-6d4480190df5",
+			"name": "Calculate Valid Emty Matrix",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b721ba2-3bcb-4dfe-8908-550c2280ca61",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"response schema to be valid json\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"    pm.expect(pm.response.json().numberOfGroups).to.equal(0);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"matrix\" : []\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/patient-groups/calculate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"patient-groups",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e003d00e-ee03-4ce4-814e-3518ef37dcab",
+			"name": "Calculate Invalid Jagged Arrays",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59351257-530a-4e5d-b9b1-2e6133949f39",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"response must be valid json with error message\", function () {",
+							"    var schema = { ",
+							"        \"type\": \"object\",",
+							"        \"required\": [\"matrix\"],",
+							"        \"properties\": {",
+							"            \"matrix\": {",
+							"                \"type\": \"array\"",
+							"            },",
+							"        },",
+							"    };",
+							"    ",
+							"    pm.response.to.be.error;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"    ",
+							"    var isValid = tv4.validate(pm.response.json(), schema);",
+							"    if (isValid !== true) {",
+							"        console.log(tv4.error);",
+							"    }",
+							"    pm.expect(isValid).to.be.true;",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"matrix\" : [\n\t    [1, 0, 1, 1, 1],\n\t    [1, 0, 0, 0],\n\t    [0, 1, 0, 0, 1]\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/patient-groups/calculate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"patient-groups",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "ac28bd88-fa3d-40c3-b454-99f5765f78bc",
+			"name": "Calculate Invalid Null Payload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10101d29-d8a2-407b-9e45-c77aee14e4ca",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.badRequest;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/patient-groups/calculate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"patient-groups",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "5916a45e-c077-4b23-bb76-d093fa80841b",
+			"name": "Calculate Invalid Null Matrix",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10101d29-d8a2-407b-9e45-c77aee14e4ca",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.badRequest;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"matrix\" : null\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/patient-groups/calculate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"patient-groups",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e0118ad2-acbd-4bc4-bf54-1947d72f1b49",
+			"name": "Patient-groups options",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "184f3c49-6c3e-49a8-89e7-ef361165f831",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.ok;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"matrix\" : null\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/patient-groups/calculate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"patient-groups",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3e2ef58c-3f34-4651-b1a4-d7d2da87f84b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2ec19020-a473-46c0-b0d8-bae62204f6e6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c1b7181d-5d4c-4298-8363-b441995d0b79",
+			"key": "host",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}

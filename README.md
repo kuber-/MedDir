@@ -1,23 +1,32 @@
-# Todo 
+# Run
 
-* Add web endpoints
-
-# Running app
-
-## Running Web
+## Run Web
 
 `dotnet run --project Web/Web.csproj --launch-profile Web`
 
-## Running Tests
+## Run Tests
 
+### Unit tests
 `dotnet test Tests/Tests.csproj`
+
+### Api tests
+
+#### Command line
+
+* `npm install -g newman`
+* `newman run MedDirWeb.postman_collection.json`
+
+#### Using postman
+
+* Import MedDirWeb.postman_collection.json
+* Run collection in the Runner.
 
 # Dev
 
-## Watching Web
+## Watch Web
 
 `dotnet watch --project Web/Web.csproj run --launch-profile Web`
 
-## Watching Tests
+## Watch Tests
 
 `dotnet watch --project Tests/Tests.csproj test`
