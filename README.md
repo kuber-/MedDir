@@ -1,5 +1,7 @@
 # Run
 
+`dotnet restore`
+
 ## Run Web
 
 `dotnet run --project Web/Web.csproj --launch-profile Web`
@@ -7,6 +9,7 @@
 ## Run Tests
 
 ### Unit tests
+
 `dotnet test Tests/Tests.csproj`
 
 ### Api tests
